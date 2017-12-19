@@ -1,0 +1,14 @@
+**/bin
+.project
+.classpath
+.settings/
+.DS_Store
+*/.DS_Store
+.DS_Store?
+/.metadata/
+.idea
+target/
+target
+/target
+/target/
+.idea/
