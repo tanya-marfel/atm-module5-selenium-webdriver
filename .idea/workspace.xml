@@ -2,42 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c767cde-62ff-4180-aaa5-4e426db59bc4" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_beust_jcommander_1_72.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_findbugs_jsr305_1_3_9.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_8_2.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_errorprone_error_prone_annotations_2_0_18.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_23_0.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_j2objc_j2objc_annotations_1_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_10.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_1_7_5.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_exec_1_3.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5_3.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_6.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_mojo_animal_sniffer_annotations_1_14.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_json_json_20171018.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_seleniumhq_selenium_selenium_api_3_8_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_seleniumhq_selenium_selenium_chrome_driver_3_8_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_seleniumhq_selenium_selenium_edge_driver_3_8_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_seleniumhq_selenium_selenium_firefox_driver_3_8_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_seleniumhq_selenium_selenium_ie_driver_3_8_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_seleniumhq_selenium_selenium_java_3_8_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_seleniumhq_selenium_selenium_opera_driver_3_8_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_seleniumhq_selenium_selenium_remote_driver_3_8_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_seleniumhq_selenium_selenium_safari_driver_3_8_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_seleniumhq_selenium_selenium_support_3_8_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_testng_testng_6_13_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/GmailTest.iml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/LoremIpsum.txt" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/test/java/GmailTest.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/target/classes/LoremIpsum.txt" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/target/test-classes/GmailTest.class" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/GmailTest.java" afterPath="$PROJECT_DIR$/src/test/java/GmailTest.java" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/GmailTest.class" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -66,8 +32,8 @@
       <file leaf-file-name="GmailTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/GmailTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="97" column="21" lean-forward="false" selection-start-line="97" selection-start-column="21" selection-end-line="97" selection-end-column="21" />
+            <state relative-caret-position="-527">
+              <caret line="43" column="0" lean-forward="true" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -394,39 +360,40 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="GmailTest - 2017.12.18 at 19h 04m 42s.xml">
-      <configuration name="GmailTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="GmailTest - 2017.12.18 at 19h 18m 09s.xml">
-      <configuration name="GmailTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="GmailTest - 2017.12.19 at 12h 52m 02s.xml">
-      <configuration name="GmailTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="GmailTest - 2017.12.19 at 13h 46m 15s.xml">
-      <configuration name="GmailTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="GmailTest - 2017.12.19 at 13h 46m 57s.xml">
-      <configuration name="GmailTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="GmailTest - 2017.12.19 at 13h 48m 24s.xml">
-      <configuration name="GmailTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="GmailTest - 2017.12.19 at 14h 53m 27s.xml">
-      <configuration name="GmailTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="GmailTest - 2017.12.19 at 18h 25m 34s.xml">
-      <configuration name="GmailTest" configurationId="TestNG" />
-    </history-entry>
     <history-entry file="GmailTest - 2017.12.19 at 18h 27m 12s.xml">
       <configuration name="GmailTest" configurationId="TestNG" />
     </history-entry>
     <history-entry file="GmailTest - 2017.12.19 at 18h 31m 30s.xml">
       <configuration name="GmailTest" configurationId="TestNG" />
     </history-entry>
+    <history-entry file="GmailTest - 2017.12.19 at 19h 22m 38s.xml">
+      <configuration name="GmailTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="GmailTest - 2017.12.19 at 19h 24m 11s.xml">
+      <configuration name="GmailTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="GmailTest - 2017.12.19 at 19h 32m 06s.xml">
+      <configuration name="GmailTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="GmailTest - 2017.12.19 at 19h 39m 33s.xml">
+      <configuration name="GmailTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="GmailTest - 2017.12.19 at 19h 41m 54s.xml">
+      <configuration name="GmailTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="GmailTest - 2017.12.19 at 19h 43m 16s.xml">
+      <configuration name="GmailTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="GmailTest - 2017.12.19 at 19h 50m 59s.xml">
+      <configuration name="GmailTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="GmailTest - 2017.12.19 at 19h 52m 24s.xml">
+      <configuration name="GmailTest" configurationId="TestNG" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="-1920" y="22" width="1920" height="1058" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -441,7 +408,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -565,8 +532,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/GmailTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="97" column="21" lean-forward="false" selection-start-line="97" selection-start-column="21" selection-end-line="97" selection-end-column="21" />
+        <state relative-caret-position="-527">
+          <caret line="43" column="0" lean-forward="true" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

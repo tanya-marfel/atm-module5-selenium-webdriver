@@ -25,12 +25,14 @@ public class GmailTest {
     private static String COMPOSEBUTTON = "//div[contains(text(), \"COMPOSE\")]";
     private static String ADDRESSEEFIELD = "//textarea[@name=\"to\"]";
     private static String ADDRESSEE = "tatsianamarfel@gmail.com";
+
     private static String SUBJECTFIELD = "subjectbox";
-    private static String SUBJECT= "LoremIpsum";
+    private static String SUBJECT = "LoremIpsum";
     private static String BODYFIELD = "//div[@role=\"textbox\"]";
     private static String CLOSEBUTTON = "//img[@alt=\"Close\"]";
     private static String FILENAME = "/Users/tatsiana_marfel/IdeaProjects/GmailTest/src/main/resources/LoremIpsum.txt";
-    private static String SUBJECTINPUT = "//h2//div[2]";
+    private static String SUBJECTINPUT = "//i";
+    private static String ADDRESSEEINPUT = "//input[@name=\"subject\"]";
 
     private WebElement newLetter;
     private WebElement to;
@@ -38,6 +40,7 @@ public class GmailTest {
     private WebElement body;
     private WebElement closeButton;
     private WebElement subjectSaved;
+    private WebElement addresseeSaved;
 
     @BeforeClass(description = "Launch browser")
     public void launchBrowser() {
@@ -65,6 +68,7 @@ public class GmailTest {
         WebElement user = driver.findElement(By.xpath(USERNAMEFIELD));
         user.click();
         user.sendKeys(USERNAME + Keys.ENTER);
+
         Assert.assertEquals(user.getAttribute("data-initial-value"), USERNAME);
 
         WebElement pass = new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(PASSWORDFIELD)));
@@ -80,20 +84,23 @@ public class GmailTest {
     }
 
     @Test(description = "Create a new mail (fill addressee, subject and body fields)", dependsOnMethods = "confirmLoginSuccess")
-    public void composeMail() throws IOException {
+    public void composeMail() throws IOException, InterruptedException {
         newLetter = driver.findElement(By.xpath(COMPOSEBUTTON));
         newLetter.click();
 
         to = driver.findElement(By.xpath(ADDRESSEEFIELD));
         to.click();
-        to.sendKeys(ADDRESSEE);
-//        Assert.assertTrue(to.getText().equals(ADDRESSEE));
+        to.sendKeys(ADDRESSEE+Keys.ENTER);
+//        addresseeSaved = driver.findElement(By.xpath(ADDRESSEEINPUT));
+//        Thread.sleep(5000);
+//        Assert.assertEquals(addresseeSaved.getAttribute("value"), ADDRESSEE);
 
         subject = driver.findElement(By.name(SUBJECTFIELD));
         subject.click();
-        subject.sendKeys(SUBJECT);
-        subjectSaved = driver.findElement(By.xpath(SUBJECTINPUT));
-//        Assert.assertEquals(subjectSaved.getText(), SUBJECT);
+        subject.sendKeys(SUBJECT+Keys.TAB);
+//        subjectSaved = driver.findElement(By.xpath(SUBJECTINPUT));
+//        Thread.sleep(5000);
+//        Assert.assertEquals(subjectSaved.getAttribute("value"), SUBJECT);
 
         body = driver.findElement(By.xpath(BODYFIELD));
         body.click();
@@ -102,8 +109,8 @@ public class GmailTest {
 
     }
 
-    @Test(description="Closing the written letter (as an alternative to saving draft)", dependsOnMethods = "composeMail")
-    public void closeDraft(){
+    @Test(description = "Closing the written letter (as an alternative to saving draft)", dependsOnMethods = "composeMail")
+    public void closeDraft() {
         closeButton = driver.findElement(By.xpath(CLOSEBUTTON));
         closeButton.click();
 
