@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -31,22 +32,31 @@ public class GmailTest {
     private static String BODYFIELD = "//div[@role=\"textbox\"]";
     private static String CLOSEBUTTON = "//img[@alt=\"Close\"]";
     private static String FILENAME = "/Users/tatsiana_marfel/IdeaProjects/GmailTest/src/main/resources/LoremIpsum.txt";
-    private static String SUBJECTINPUT = "//i";
-    private static String ADDRESSEEINPUT = "//input[@name=\"subject\"]";
-
+    private static String SUBJECTINPUT = "//input[@name=\"subject\"]";git 
+    private static String ADDRESSEEINPUT = "//input[@name=\"to\"]";
+    private static String MESSAGEBODY = "div[aria-label='Message Body']";
+    private static String DRAFTSLINK = "Drafts";
+    private static String SAVEDDRAFT = "//span[contains(text(), 'LoremIpsum')]";
+    private static String SENDBUTTON = "//div[contains(text(), \"Send\")]";
+    private static String SENTFOLDER = "a[title=\"Sent Mail\"]";
+    private static String SUCCESSMESSAGE = "//div[contains(text(), \"Your message has been sent\")]";
     private WebElement newLetter;
     private WebElement to;
     private WebElement subject;
     private WebElement body;
     private WebElement closeButton;
+    private WebElement drafts;
+    private WebElement sendButton;
+    //    private WebElement savedDraft;
     private WebElement subjectSaved;
     private WebElement addresseeSaved;
+    private WebElement bodySaved;
+    private WebElement sent;
 
     @BeforeClass(description = "Launch browser")
     public void launchBrowser() {
-        // launching the browser for the test before the first method is
-        // executed
-        System.setProperty("webdriver.chrome.driver", "/Volumes/DATA/CDP and training/ATM/Selenium/chromedriver");
+
+        System.setProperty("webdriver.chrome.driver", "/Volumes/DATA/chromedriver");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized");
         driver = new ChromeDriver();
@@ -54,11 +64,8 @@ public class GmailTest {
 
     @BeforeClass(dependsOnMethods = "launchBrowser", description = "Add implicit wait and maximize window")
     public void addImplicitWait() {
-        // setting standard timeout
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         // driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-        // navigating to test url
-
         driver.manage().window().maximize();
     }
 
@@ -90,17 +97,12 @@ public class GmailTest {
 
         to = driver.findElement(By.xpath(ADDRESSEEFIELD));
         to.click();
-        to.sendKeys(ADDRESSEE+Keys.ENTER);
-//        addresseeSaved = driver.findElement(By.xpath(ADDRESSEEINPUT));
-//        Thread.sleep(5000);
-//        Assert.assertEquals(addresseeSaved.getAttribute("value"), ADDRESSEE);
+        to.sendKeys(ADDRESSEE + Keys.ENTER);
 
         subject = driver.findElement(By.name(SUBJECTFIELD));
         subject.click();
-        subject.sendKeys(SUBJECT+Keys.TAB);
-//        subjectSaved = driver.findElement(By.xpath(SUBJECTINPUT));
-//        Thread.sleep(5000);
-//        Assert.assertEquals(subjectSaved.getAttribute("value"), SUBJECT);
+        subject.sendKeys(SUBJECT + Keys.TAB);
+
 
         body = driver.findElement(By.xpath(BODYFIELD));
         body.click();
@@ -114,6 +116,49 @@ public class GmailTest {
         closeButton = driver.findElement(By.xpath(CLOSEBUTTON));
         closeButton.click();
 
+    }
+
+    @Test(description = "Verify, that the mail presents in ‘Drafts’ folder", dependsOnMethods = "closeDraft")
+    public void verifyDraftsFolder() {
+        drafts = driver.findElement(By.partialLinkText(DRAFTSLINK));
+        drafts.click();
+        Assert.assertTrue(!driver.findElements(By.xpath(SAVEDDRAFT)).isEmpty());
+    }
+
+    @Test(description = "Verify the draft content", dependsOnMethods = "verifyDraftsFolder")
+    public void verifyLetterContent() throws IOException {
+        driver.findElement(By.xpath(SAVEDDRAFT)).click();
+        addresseeSaved = driver.findElement(By.xpath(ADDRESSEEINPUT));
+        Assert.assertEquals(addresseeSaved.getAttribute("value"), ADDRESSEE);
+
+        subjectSaved = driver.findElement(By.xpath(SUBJECTINPUT));
+        Assert.assertEquals(subjectSaved.getAttribute("value"), SUBJECT);
+
+        bodySaved = driver.findElement(By.cssSelector(MESSAGEBODY));
+
+        Assert.assertEquals(bodySaved.getText(), readFile(FILENAME));
+
+    }
+
+    @Test(description = "Send the mail", dependsOnMethods = "verifyLetterContent")
+    public void sendLetter() throws InterruptedException {
+        sendButton = new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(By.xpath(SENDBUTTON)));
+        sendButton.click();
+        sendButton = new WebDriverWait(driver, 10).until(ExpectedConditions.presenceOfElementLocated(By.xpath(SUCCESSMESSAGE)));
+    }
+
+
+    @Test(description = "Verify, that the mail disappeared from ‘Drafts’ folder", dependsOnMethods = "sendLetter")
+    public void confirmLetterDisapperared() {
+        driver.navigate().refresh();
+        Assert.assertTrue(driver.findElements(By.xpath(SAVEDDRAFT)).isEmpty());
+    }
+
+    @Test(description = "Verify, that the mail is in ‘Sent’ folder", dependsOnMethods = "confirmLetterDisapperared")
+    public void confirmLetterPresent() {
+        sent = driver.findElement(By.cssSelector(SENTFOLDER));
+        sent.click();
+        Assert.assertTrue(!driver.findElements(By.xpath(SAVEDDRAFT)).isEmpty());
     }
 
 
