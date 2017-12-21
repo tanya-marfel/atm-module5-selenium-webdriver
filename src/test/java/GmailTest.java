@@ -16,7 +16,6 @@ import org.testng.annotations.Test;
 import org.testng.annotations.Parameters;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
@@ -24,12 +23,7 @@ import static java.nio.file.Files.readAllBytes;
 
 public class GmailTest {
     private WebDriver driver;
-//    private static String URL = "https://gmail.com";
-//    private static String USERNAME = "tatsiana.marfel.test";
-//    private static String PASSWORD = "myNewPassword";
-//    private static String ADDRESSEE = "tatsianamarfel@gmail.com";
-//    private static String SUBJECT = "LoremIpsum";
-//    private static String FILENAME = "./src/main/resources/LoremIpsum.txt";
+
     @FindBy(xpath = "//input[@id=\"identifierId\"]")
     private WebElement USERNAMEFIELD;
 
