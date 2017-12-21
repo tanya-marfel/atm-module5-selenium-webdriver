@@ -6,10 +6,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -108,7 +110,7 @@ public class GmailTest {
     public void confirmLoginSuccess() {
 
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(COMPOSEBUTTON));
-        Assert.assertTrue(COMPOSEBUTTON.isDisplayed());
+        Assert.assertTrue(isDisplayed(COMPOSEBUTTON));
     }
 
     @Test(description = "Create a new mail (fill addressee, subject and body fields)", dependsOnMethods = "confirmLoginSuccess")
@@ -126,10 +128,7 @@ public class GmailTest {
             LETTERBODY.sendKeys(readFile(FILENAME));
         } catch (IOException e) {
             System.out.println("There was an error while reading the file caused by " + e.getMessage());
-
         }
-
-
     }
 
     @Test(description = "Closing the written letter (as an alternative to saving draft)", dependsOnMethods = "composeMail")
@@ -141,13 +140,16 @@ public class GmailTest {
     @Test(description = "Verify, that the mail presents in ‘Drafts’ folder", dependsOnMethods = "closeDraft")
     public void verifyDraftsFolder() {
         DRAFTSFOLDER.click();
-        Assert.assertFalse(checkElementPresence(SAVEDDRAFT));
+        Assert.assertTrue(isDisplayed(SAVEDDRAFT));
     }
 
     @Test(description = "Verify the draft content", dependsOnMethods = "verifyDraftsFolder")
     public void verifyLetterContent() throws IOException {
         SAVEDDRAFT.click();
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(SAVEDDRAFT));
+        new FluentWait(driver).withTimeout(30, TimeUnit.SECONDS).pollingEvery(5, TimeUnit.SECONDS)
+                .ignoring(NoSuchElementException.class)
+                .until(ExpectedConditions.visibilityOf(LETTERBODY));
+        // new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(SAVEDDRAFT));
         Assert.assertTrue(SAVEDADDRESSEE.getAttribute("value").contains(ADDRESSEE));
 
         Assert.assertEquals(SAVEDSUBJECT.getAttribute("value"), SUBJECT);
@@ -172,20 +174,25 @@ public class GmailTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        Assert.assertTrue(checkElementPresence(SAVEDDRAFT));
+        Assert.assertFalse(isDisplayed(SAVEDDRAFT));
     }
 
     @Test(description = "Verify, that the mail is in ‘Sent’ folder", dependsOnMethods = "confirmLetterDisapperared")
     public void confirmLetterPresent() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         SENTFOLDER.click();
-        Assert.assertFalse(checkElementPresence(SAVEDDRAFT));
+        Assert.assertTrue(isDisplayed(SAVEDDRAFT));
     }
 
     @Test(description = "Log off", dependsOnMethods = "confirmLetterPresent")
     public void logOut() {
         ACCOUNTBUTTON.click();
         SIGNOUTBUTTON.click();
-        Assert.assertTrue(PASSWORDFIELD.isDisplayed());
+        Assert.assertTrue(isDisplayed(PASSWORDFIELD));
 
     }
 
@@ -195,11 +202,15 @@ public class GmailTest {
         return new String(encoded);
     }
 
-    private boolean checkElementPresence(WebElement element) {
-        List<WebElement> list = new ArrayList<>();
-        list.clear();
-        list.add(element);
-        return list.isEmpty();
+    private boolean isDisplayed(WebElement element) {
+
+        try {
+            element.isDisplayed();
+            return true;
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
+
     }
 
 }
