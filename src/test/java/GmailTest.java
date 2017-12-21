@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -36,6 +37,9 @@ public class GmailTest {
 
     @FindBy(xpath = "//div[contains(text(), \"COMPOSE\")]")
     private WebElement COMPOSEBUTTON;
+
+    @FindBy(css = "div[role=dialog]")
+    private WebElement LETTERWINDOW;
 
     @FindBy(name = "subjectbox")
     private WebElement SUBJECTFIELD;
@@ -90,7 +94,6 @@ public class GmailTest {
     @BeforeClass(dependsOnMethods = "launchBrowser", description = "Add implicit wait and maximize window")
     public void addImplicitWait() {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        // driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
         driver.manage().window().maximize();
     }
 
@@ -108,7 +111,6 @@ public class GmailTest {
 
     @Test(description = "Assert, that the login is successful", dependsOnMethods = "loginToGmail")
     public void confirmLoginSuccess() {
-
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(COMPOSEBUTTON));
         Assert.assertTrue(isDisplayed(COMPOSEBUTTON));
     }
@@ -117,6 +119,8 @@ public class GmailTest {
     public void composeMail() {
         COMPOSEBUTTON.click();
 
+        Assert.assertTrue(isDisplayed(LETTERWINDOW));
+
         ADDRESSEEFIELD.click();
         ADDRESSEEFIELD.sendKeys(ADDRESSEE + Keys.ENTER);
 
@@ -124,6 +128,7 @@ public class GmailTest {
         SUBJECTFIELD.sendKeys(SUBJECT + Keys.TAB);
 
         LETTERBODY.click();
+
         try {
             LETTERBODY.sendKeys(readFile(FILENAME));
         } catch (IOException e) {
@@ -134,7 +139,12 @@ public class GmailTest {
     @Test(description = "Closing the written letter (as an alternative to saving draft)", dependsOnMethods = "composeMail")
     public void closeDraft() {
         CLOSEBUTTON.click();
-
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Assert.assertFalse(isDisplayed(LETTERWINDOW));
     }
 
     @Test(description = "Verify, that the mail presents in ‘Drafts’ folder", dependsOnMethods = "closeDraft")
@@ -149,7 +159,7 @@ public class GmailTest {
         new FluentWait(driver).withTimeout(30, TimeUnit.SECONDS).pollingEvery(5, TimeUnit.SECONDS)
                 .ignoring(NoSuchElementException.class)
                 .until(ExpectedConditions.visibilityOf(LETTERBODY));
-        // new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(SAVEDDRAFT));
+
         Assert.assertTrue(SAVEDADDRESSEE.getAttribute("value").contains(ADDRESSEE));
 
         Assert.assertEquals(SAVEDSUBJECT.getAttribute("value"), SUBJECT);
@@ -163,6 +173,7 @@ public class GmailTest {
         new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(SENDBUTTON));
         SENDBUTTON.click();
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(SUCCESSMESSAGE));
+        Assert.assertTrue(isDisplayed(SUCCESSMESSAGE));
     }
 
 
@@ -188,12 +199,17 @@ public class GmailTest {
         Assert.assertTrue(isDisplayed(SAVEDDRAFT));
     }
 
-    @Test(description = "Log off", dependsOnMethods = "confirmLetterPresent")
+    @Test(description = "Log out", dependsOnMethods = "confirmLetterPresent")
     public void logOut() {
         ACCOUNTBUTTON.click();
         SIGNOUTBUTTON.click();
         Assert.assertTrue(isDisplayed(PASSWORDFIELD));
 
+    }
+
+    @AfterClass(description = "Close brwoser")
+    public void tearDown() {
+        driver.quit();
     }
 
 
@@ -205,8 +221,8 @@ public class GmailTest {
     private boolean isDisplayed(WebElement element) {
 
         try {
-            element.isDisplayed();
-            return true;
+            return element.isDisplayed();
+
         } catch (org.openqa.selenium.NoSuchElementException e) {
             return false;
         }
