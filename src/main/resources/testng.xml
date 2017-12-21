@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Suite1" verbose="1">
+    <test name="End-to-end test">
+        <parameter name="USERNAME" value="tatsiana.marfel.test"/>
+        <parameter name="PASSWORD" value="myNewPassword"/>
+        <parameter name="ADDRESSEE" value="tatsianamarfel@gmail.com"/>
+        <parameter name="SUBJECT" value="LoremIpsum"/>
+        <parameter name="FILENAME" value="./src/main/resources/LoremIpsum.txt"/>
+        <parameter name="URL" value="https://gmail.com"/>
+        <classes>
+            <class name="GmailTest"/>
+        </classes>
+
+    </test>
+</suite>

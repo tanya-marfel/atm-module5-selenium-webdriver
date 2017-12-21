@@ -1,4 +1,5 @@
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,23 +13,23 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.testng.annotations.Parameters;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
 import java.util.concurrent.TimeUnit;
+
+import static java.nio.file.Files.readAllBytes;
 
 public class GmailTest {
     private WebDriver driver;
-    private static String URL = "https://gmail.com";
-    private static String USERNAME = "tatsiana.marfel.test";
-    private static String PASSWORD = "myNewPassword";
-    private static String ADDRESSEE = "tatsianamarfel@gmail.com";
-    private static String SUBJECT = "LoremIpsum";
-    private static String FILENAME = "./src/main/resources/LoremIpsum.txt";
-
-
+//    private static String URL = "https://gmail.com";
+//    private static String USERNAME = "tatsiana.marfel.test";
+//    private static String PASSWORD = "myNewPassword";
+//    private static String ADDRESSEE = "tatsianamarfel@gmail.com";
+//    private static String SUBJECT = "LoremIpsum";
+//    private static String FILENAME = "./src/main/resources/LoremIpsum.txt";
     @FindBy(xpath = "//input[@id=\"identifierId\"]")
     private WebElement USERNAMEFIELD;
 
@@ -83,7 +84,6 @@ public class GmailTest {
 
     @BeforeClass(description = "Launch browser")
     public void launchBrowser() {
-
         System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized");
@@ -97,8 +97,9 @@ public class GmailTest {
         driver.manage().window().maximize();
     }
 
+    @Parameters({"URL","USERNAME","PASSWORD"})
     @Test(description = "Sign in to Gmail account")
-    public void loginToGmail() {
+    public void loginToGmail(String URL, String USERNAME, String PASSWORD) {
         driver.get(URL);
         USERNAMEFIELD.click();
         USERNAMEFIELD.sendKeys(USERNAME + Keys.ENTER);
@@ -114,9 +115,9 @@ public class GmailTest {
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(COMPOSEBUTTON));
         Assert.assertTrue(isDisplayed(COMPOSEBUTTON));
     }
-
+    @Parameters({"ADDRESSEE","SUBJECT","FILENAME"})
     @Test(description = "Create a new mail (fill addressee, subject and body fields)", dependsOnMethods = "confirmLoginSuccess")
-    public void composeMail() {
+    public void composeMail(String ADDRESSEE, String SUBJECT, String FILENAME) {
         COMPOSEBUTTON.click();
 
         Assert.assertTrue(isDisplayed(LETTERWINDOW));
@@ -152,9 +153,9 @@ public class GmailTest {
         DRAFTSFOLDER.click();
         Assert.assertTrue(isDisplayed(SAVEDDRAFT));
     }
-
+    @Parameters({"ADDRESSEE","SUBJECT","FILENAME"})
     @Test(description = "Verify the draft content", dependsOnMethods = "verifyDraftsFolder")
-    public void verifyLetterContent() throws IOException {
+    public void verifyLetterContent(String ADDRESSEE, String SUBJECT, String FILENAME) throws IOException {
         SAVEDDRAFT.click();
         new FluentWait(driver).withTimeout(30, TimeUnit.SECONDS).pollingEvery(5, TimeUnit.SECONDS)
                 .ignoring(NoSuchElementException.class)
@@ -214,7 +215,7 @@ public class GmailTest {
 
 
     private String readFile(String fileName) throws IOException {
-        byte[] encoded = Files.readAllBytes(Paths.get(fileName));
+        byte[] encoded = readAllBytes(Paths.get(fileName));
         return new String(encoded);
     }
 
