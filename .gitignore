@@ -12,3 +12,4 @@ target
 /target/
 .idea/
 *.iml
+chromedriver
