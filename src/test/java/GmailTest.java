@@ -167,6 +167,7 @@ public class GmailTest {
 
     @Test(description = "Verify, that the mail disappeared from ‘Drafts’ folder", dependsOnMethods = "sendLetter")
     public void confirmLetterDisapperared() {
+        DRAFTSFOLDER.click();
         driver.navigate().refresh();
         waitForVisibilityFluently(COMPOSEBUTTON);
         Assert.assertFalse(isDisplayed(SAVEDDRAFT));
@@ -198,7 +199,6 @@ public class GmailTest {
     }
 
     private boolean isDisplayed(WebElement element) {
-
         try {
             return element.isDisplayed();
 
@@ -217,12 +217,12 @@ public class GmailTest {
     private void waitForVisibilityExplicitly(WebElement element) {
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(element));
     }
+
     private void waitForInvisibilityFluently(WebElement element) {
         new FluentWait(driver).withTimeout(30, TimeUnit.SECONDS).pollingEvery(5, TimeUnit.SECONDS)
                 .ignoring(NoSuchElementException.class)
                 .until(ExpectedConditions.invisibilityOf(element));
     }
-
 
 
 }
