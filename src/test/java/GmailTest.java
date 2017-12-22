@@ -91,14 +91,14 @@ public class GmailTest {
         driver.manage().window().maximize();
     }
 
-    @Parameters({"URL","USERNAME","PASSWORD"})
+    @Parameters({"URL", "USERNAME", "PASSWORD"})
     @Test(description = "Sign in to Gmail account")
     public void loginToGmail(String URL, String USERNAME, String PASSWORD) {
         driver.get(URL);
         USERNAMEFIELD.click();
         USERNAMEFIELD.sendKeys(USERNAME + Keys.ENTER);
         Assert.assertEquals(USERNAMEFIELD.getAttribute("data-initial-value"), USERNAME);
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(PASSWORDFIELD));
+        waitForVisibilityExplicitly(PASSWORDFIELD);
         PASSWORDFIELD.click();
         PASSWORDFIELD.sendKeys(PASSWORD + Keys.ENTER);
 
@@ -106,10 +106,11 @@ public class GmailTest {
 
     @Test(description = "Assert, that the login is successful", dependsOnMethods = "loginToGmail")
     public void confirmLoginSuccess() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(COMPOSEBUTTON));
+        waitForVisibilityExplicitly(COMPOSEBUTTON);
         Assert.assertTrue(isDisplayed(COMPOSEBUTTON));
     }
-    @Parameters({"ADDRESSEE","SUBJECT","FILENAME"})
+
+    @Parameters({"ADDRESSEE", "SUBJECT", "FILENAME"})
     @Test(description = "Create a new mail (fill addressee, subject and body fields)", dependsOnMethods = "confirmLoginSuccess")
     public void composeMail(String ADDRESSEE, String SUBJECT, String FILENAME) {
         COMPOSEBUTTON.click();
@@ -134,11 +135,7 @@ public class GmailTest {
     @Test(description = "Closing the written letter (as an alternative to saving draft)", dependsOnMethods = "composeMail")
     public void closeDraft() {
         CLOSEBUTTON.click();
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        waitForInvisibilityFluently(LETTERWINDOW);
         Assert.assertFalse(isDisplayed(LETTERWINDOW));
     }
 
@@ -147,18 +144,14 @@ public class GmailTest {
         DRAFTSFOLDER.click();
         Assert.assertTrue(isDisplayed(SAVEDDRAFT));
     }
-    @Parameters({"ADDRESSEE","SUBJECT","FILENAME"})
+
+    @Parameters({"ADDRESSEE", "SUBJECT", "FILENAME"})
     @Test(description = "Verify the draft content", dependsOnMethods = "verifyDraftsFolder")
     public void verifyLetterContent(String ADDRESSEE, String SUBJECT, String FILENAME) throws IOException {
         SAVEDDRAFT.click();
-        new FluentWait(driver).withTimeout(30, TimeUnit.SECONDS).pollingEvery(5, TimeUnit.SECONDS)
-                .ignoring(NoSuchElementException.class)
-                .until(ExpectedConditions.visibilityOf(LETTERBODY));
-
+        waitForVisibilityFluently(LETTERBODY);
         Assert.assertTrue(SAVEDADDRESSEE.getAttribute("value").contains(ADDRESSEE));
-
         Assert.assertEquals(SAVEDSUBJECT.getAttribute("value"), SUBJECT);
-
         Assert.assertEquals(LETTERBODY.getText(), readFile(FILENAME));
 
     }
@@ -167,7 +160,7 @@ public class GmailTest {
     public void sendLetter() {
         new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(SENDBUTTON));
         SENDBUTTON.click();
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(SUCCESSMESSAGE));
+        waitForVisibilityExplicitly(SUCCESSMESSAGE);
         Assert.assertTrue(isDisplayed(SUCCESSMESSAGE));
     }
 
@@ -175,21 +168,12 @@ public class GmailTest {
     @Test(description = "Verify, that the mail disappeared from ‘Drafts’ folder", dependsOnMethods = "sendLetter")
     public void confirmLetterDisapperared() {
         driver.navigate().refresh();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        waitForVisibilityFluently(COMPOSEBUTTON);
         Assert.assertFalse(isDisplayed(SAVEDDRAFT));
     }
 
     @Test(description = "Verify, that the mail is in ‘Sent’ folder", dependsOnMethods = "confirmLetterDisapperared")
     public void confirmLetterPresent() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         SENTFOLDER.click();
         Assert.assertTrue(isDisplayed(SAVEDDRAFT));
     }
@@ -223,5 +207,22 @@ public class GmailTest {
         }
 
     }
+
+    private void waitForVisibilityFluently(WebElement element) {
+        new FluentWait(driver).withTimeout(30, TimeUnit.SECONDS).pollingEvery(5, TimeUnit.SECONDS)
+                .ignoring(NoSuchElementException.class)
+                .until(ExpectedConditions.visibilityOf(element));
+    }
+
+    private void waitForVisibilityExplicitly(WebElement element) {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(element));
+    }
+    private void waitForInvisibilityFluently(WebElement element) {
+        new FluentWait(driver).withTimeout(30, TimeUnit.SECONDS).pollingEvery(5, TimeUnit.SECONDS)
+                .ignoring(NoSuchElementException.class)
+                .until(ExpectedConditions.invisibilityOf(element));
+    }
+
+
 
 }
